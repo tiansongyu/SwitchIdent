@@ -57,33 +57,54 @@ namespace Menus {
 
     void KernelInfo(void) {
         SetSysFirmwareVersion ver = SwitchIdent::GetFirmwareVersion();
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 50, "Firmware version:", 
+        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 50, "固件版本:", 
             "%u.%u.%u-%u%u", ver.major, ver.minor, ver.micro, ver.revision_major, ver.revision_minor);
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 100, "Hardware:", SwitchIdent::GetHardwareType());
+        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 100, "硬件:", SwitchIdent::GetHardwareType());
         Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 150, "Unit:", SwitchIdent::GetUnit());
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 200, "Serial:", SwitchIdent::GetSerialNumber().number);
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 250, "DRAM ID:", SwitchIdent::GetDramDesc());
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 300, "Device ID:", "%llu", SwitchIdent::GetDeviceID());
+        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 200, "序列号:", SwitchIdent::GetSerialNumber().number);
+        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 250, "内存ID:", SwitchIdent::GetDramDesc());
+        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 300, "驱动ID:", "%llu", SwitchIdent::GetDeviceID());
     }
 
     void SystemInfo(void) {
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 50, "Region:",  SwitchIdent::GetRegion());
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 100, "CPU clock:", "%lu MHz", SwitchIdent::GetClock(PcvModule_CpuBus));
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 150, "GPU clock:", "%lu MHz", SwitchIdent::GetClock(PcvModule_GPU));
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 200, "EMC clock:", "%lu MHz", SwitchIdent::GetClock(PcvModule_EMC));
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 250, "Wireless LAN:", 
-            "%s (RSSI: %d) (Quality: %lu)", SwitchIdent::GetWirelessLanEnableFlag()? "Enabled" : "Disabled", SwitchIdent::GetWlanRSSI(), SwitchIdent::GetWlanQuality(SwitchIdent::GetWlanRSSI()));
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 300, "Bluetooth:", SwitchIdent::GetBluetoothEnableFlag()? "Enabled" : "Disabled");
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 350, "NFC:", SwitchIdent::GetNfcEnableFlag()? "Enabled" : "Disabled");
+        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 50, "地区:",  SwitchIdent::GetRegion());
+        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 100, "CPU频率:", "%lu MHz", SwitchIdent::GetClock(PcvModule_CpuBus));
+        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 150, "GPU频率:", "%lu MHz", SwitchIdent::GetClock(PcvModule_GPU));
+        Menus::DrawItemf(
+            g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 200,
+            "EMC频率:", "%lu MHz", SwitchIdent::GetClock(PcvModule_EMC));
+        Menus::DrawItemf(
+            g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 250,
+            "无线网络:", "%s (RSSI: %d) (信号强度: %lu)",
+            SwitchIdent::GetWirelessLanEnableFlag() ? "开启" : "关闭",
+            SwitchIdent::GetWlanRSSI(),
+            SwitchIdent::GetWlanQuality(SwitchIdent::GetWlanRSSI()));
+        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 300, "蓝牙:", SwitchIdent::GetBluetoothEnableFlag()? "开启" : "关闭");
+        Menus::DrawItem(
+            g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 350,
+            "NFC:", SwitchIdent::GetNfcEnableFlag() ? "开启" : "关闭");
     }
 
     void PowerInfo(void) {
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 50, "Battery percentage:",  "%lu %% (%s)", SwitchIdent::GetBatteryPercentage(), SwitchIdent::IsCharging()? "charging" : "not charging");
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 100, "Battery voltage state:", SwitchIdent::GetVoltageState());
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 150, "Battery charger type:", SwitchIdent::GetChargerType());
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 200, "Battery charging enabled:", SwitchIdent::IsChargingEnabled()? "Yes" : "No");
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 250, "Battery ample power supplied:", SwitchIdent::IsEnoughPowerSupplied()? "Yes" : "No");
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 300, "Battery lot number:", SwitchIdent::GetBatteryLot().lot);
+      Menus::DrawItemf(
+          g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 50,
+          "电池百分比:", "%lu %% (%s)", SwitchIdent::GetBatteryPercentage(),
+          SwitchIdent::IsCharging() ? "充电中" : "未充电");
+      Menus::DrawItem(g_start_x,
+                      g_start_y + ((g_item_dist - g_item_height) / 2) + 100,
+                      "电池电压状态:", SwitchIdent::GetVoltageState());
+      Menus::DrawItem(g_start_x,
+                      g_start_y + ((g_item_dist - g_item_height) / 2) + 150,
+                      "电池充电器类型:", SwitchIdent::GetChargerType());
+      Menus::DrawItem(
+          g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 200,
+          "电池充电已启用:", SwitchIdent::IsChargingEnabled() ? "是" : "否");
+      Menus::DrawItem(
+          g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 250,
+          "电池供电充足:", SwitchIdent::IsEnoughPowerSupplied() ? "是" : "否");
+      Menus::DrawItem(g_start_x,
+                      g_start_y + ((g_item_dist - g_item_height) / 2) + 300,
+                      "电池批号:", SwitchIdent::GetBatteryLot().lot);
     }
 
     void StorageInfo(void) {
@@ -129,19 +150,27 @@ namespace Menus {
         GUI::DrawRect(452, 644, (((double)nand_s_used / (double)nand_s_total) * 124.0), 21, selector_colour);
         
         GUI::DrawText(600, 38 + ((g_item_dist - g_item_height) / 2) + 50, 25, descr_colour, "SD");
-        Menus::DrawItem(600, 38 + ((g_item_dist - g_item_height) / 2) + 88, "Total storage capacity:",  sd_total_str);
-        Menus::DrawItem(600, 38 + ((g_item_dist - g_item_height) / 2) + 126, "Free storage capacity:", sd_free_str);
-        Menus::DrawItem(600, 38 + ((g_item_dist - g_item_height) / 2) + 164, "Used storage capacity:", sd_used_str);
+        Menus::DrawItem(600, 38 + ((g_item_dist - g_item_height) / 2) + 88,
+                        "总存储容量:", sd_total_str);
+        Menus::DrawItem(600, 38 + ((g_item_dist - g_item_height) / 2) + 126,
+                        "空闲存储容量:", sd_free_str);
+        Menus::DrawItem(600, 38 + ((g_item_dist - g_item_height) / 2) + 164, "已使用存储容量:", sd_used_str);
         
         GUI::DrawText(600, 246 + ((g_item_dist - g_item_height) / 2) + 50, 25, descr_colour, "NAND User");
-        Menus::DrawItem(600, 246 + ((g_item_dist - g_item_height) / 2) + 88, "Total storage capacity:",  nand_u_total_str);
-        Menus::DrawItem(600, 246 + ((g_item_dist - g_item_height) / 2) + 126, "Free storage capacity:", nand_u_free_str);
-        Menus::DrawItem(600, 246 + ((g_item_dist - g_item_height) / 2) + 164, "Used storage capacity:", nand_u_used_str);
-        
+        Menus::DrawItem(600, 246 + ((g_item_dist - g_item_height) / 2) + 88,
+                        "总存储容量:", nand_u_total_str);
+        Menus::DrawItem(600, 246 + ((g_item_dist - g_item_height) / 2) + 126,
+                        "空闲存储容量:", nand_u_free_str);
+        Menus::DrawItem(600, 246 + ((g_item_dist - g_item_height) / 2) + 164,
+                        "已使用存储容量:", nand_u_used_str);
+
         GUI::DrawText(600, 454 + ((g_item_dist - g_item_height) / 2) + 50, 25, descr_colour, "NAND System");
-        Menus::DrawItem(600, 454 + ((g_item_dist - g_item_height) / 2) + 88, "Total storage capacity:",  nand_s_total_str);
-        Menus::DrawItem(600, 454 + ((g_item_dist - g_item_height) / 2) + 126, "Free storage capacity:", nand_s_free_str);
-        Menus::DrawItem(600, 454 + ((g_item_dist - g_item_height) / 2) + 164, "Used storage capacity:", nand_s_used_str);
+        Menus::DrawItem(600, 454 + ((g_item_dist - g_item_height) / 2) + 88,
+                        "总存储容量:", nand_s_total_str);
+        Menus::DrawItem(600, 454 + ((g_item_dist - g_item_height) / 2) + 126,
+                        "空闲存储容量:", nand_s_free_str);
+        Menus::DrawItem(600, 454 + ((g_item_dist - g_item_height) / 2) + 164,
+                        "已使用存储容量:", nand_s_used_str);
     }
 
     void JoyconInfo(void) {
@@ -151,8 +180,14 @@ namespace Menus {
         HidPowerInfo info_left = SwitchIdent::GetJoyconPowerInfoL(padIsHandheld(&g_pad) ? HidNpadIdType_Handheld : HidNpadIdType_No1);
         HidPowerInfo info_right = SwitchIdent::GetJoyconPowerInfoR(padIsHandheld(&g_pad) ? HidNpadIdType_Handheld : HidNpadIdType_No1);
 
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 50, "Left Joycon battery:", "%lu %% (%s)", (info_left.battery_level * 25), info_left.is_charging? "charging" : "not charging");
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 100, "Right Joycon battery:", "%lu %% (%s)", (info_right.battery_level * 25), info_right.is_charging? "charging" : "not charging");
+        Menus::DrawItemf(
+            g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 50,
+            "左 Joycon 电池:", "%lu %% (%s)", (info_left.battery_level * 25),
+            info_left.is_charging ? "充电中" : "未充电");
+        Menus::DrawItemf(
+            g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 100,
+            "右 Joycon 电池:", "%lu %% (%s)", (info_right.battery_level * 25),
+            info_right.is_charging ? "充电中" : "未充电");
     }
 
     void MiscInfo(void) {
@@ -162,15 +197,23 @@ namespace Menus {
         SetCalBdAddress bd_addr = SwitchIdent::GetBluetoothBdAddress();
         SetCalMacAddress mac_addr = SwitchIdent::GetWirelessLanMacAddress();
 
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 50, "IP:",  R_SUCCEEDED(ret)? hostname : nullptr);
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 100, "State:", SwitchIdent::GetOperationMode());
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 150, "Automatic update:", SwitchIdent::GetAutoUpdateEnableFlag()? "Enabled" : "Disabled");
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 200, "Console information upload:", SwitchIdent::GetConsoleInformationUploadFlag()? "Enabled" : "Disabled");
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 250, "SD card status:", g_is_sd_inserted? "Inserted" : "Not inserted");
-        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 300, "Game card status:", g_is_gamecard_inserted? "Inserted" : "Not inserted");
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 350, "BT address:",
+        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 50, "IP地址:",  R_SUCCEEDED(ret)? hostname : nullptr);
+        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 100, "主机模式:", SwitchIdent::GetOperationMode());
+        Menus::DrawItem(
+            g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 150,
+            "自动更新:",
+            SwitchIdent::GetAutoUpdateEnableFlag() ? "开启" : "关闭");
+        Menus::DrawItem(
+            g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 200,
+            "控制台信息上传:",
+            SwitchIdent::GetConsoleInformationUploadFlag() ? "开启" : "关闭");
+        Menus::DrawItem(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 250, "SD卡状态:", g_is_sd_inserted? "已插入" : "未插入");
+        Menus::DrawItem(
+            g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 300,
+            "游戏卡状态:", g_is_gamecard_inserted ? "已插入" : "未插入");
+        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 350, "BT地址:",
             "%02X:%02X:%02X:%02X:%02X:%02X", bd_addr.bd_addr[0], bd_addr.bd_addr[1], bd_addr.bd_addr[2], bd_addr.bd_addr[3], bd_addr.bd_addr[4], bd_addr.bd_addr[5]);
-        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 400, "WLAN address:", 
+        Menus::DrawItemf(g_start_x, g_start_y + ((g_item_dist - g_item_height) / 2) + 400, "WLAN地址:", 
             "%02X:%02X:%02X:%02X:%02X:%02X", mac_addr.addr[0], mac_addr.addr[1], mac_addr.addr[2], mac_addr.addr[3], mac_addr.addr[4], mac_addr.addr[5]);
     }
 
@@ -206,13 +249,13 @@ namespace Menus {
         //     std::printf("hidsysGetUniquePadsFromNpad: total_entries (%d)\n", total_entries);
 
         const char *items[] = {
-            "Kernel",
-            "System",
-            "Power",
-            "Storage",
-            "Joycon",
-            "Misc",
-            "Exit"
+            "内核",
+            "系统",
+            "电源",
+            "存储",
+            "手柄",
+            "杂项",
+            "退出"
         };
 
         while(appletMainLoop()) {

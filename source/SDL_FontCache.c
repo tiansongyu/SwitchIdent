@@ -1235,7 +1235,7 @@ Uint8 FC_LoadFontFromTTF(FC_Font* font, SDL_Renderer* renderer, TTF_Font* ttf, S
             memset(buff, 0, 5);
             if(!U8_charcpy(buff, source_string, 5))
                 continue;
-            glyph_surf = TTF_RenderUTF8_Blended(ttf, buff, white);
+            glyph_surf = TTF_RenderUTF8_Solid(ttf, buff, white);
             if(glyph_surf == NULL)
                 continue;
 
@@ -1632,7 +1632,7 @@ Uint8 FC_GetGlyphData(FC_Font* font, FC_GlyphData* result, Uint32 codepoint)
         SDL_QueryTexture(cache_image, NULL, NULL, &w, &h);
         #endif
 
-        surf = TTF_RenderUTF8_Blended(font->ttf_source, buff, white);
+        surf = TTF_RenderUTF8_Solid(font->ttf_source, buff, white);
         if(surf == NULL)
         {
             return 0;
